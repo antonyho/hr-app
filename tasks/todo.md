@@ -12,8 +12,8 @@ Build a single page HR application that provides employee profile page managemen
 - [x] Create shared models/DTOs for user roles and employee profiles
 - [x] Implement authentication service with role-based access
 - [x] Implement profile service for CRUD operations
-- [ ] Implement absence request service
-- [ ] Create basic frontend components for employee profiles
+- [x] Implement absence request service
+- [x] Create basic frontend components for employee profiles
 - [ ] Add unit tests for backend services
 - [ ] Create README for deployment instructions
 
