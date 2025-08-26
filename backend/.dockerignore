@@ -1,0 +1,11 @@
+target/
+.git
+*.md
+Dockerfile
+.dockerignore
+.env
+.env.local
+src/test/
+.mvn/
+mvnw
+mvnw.cmd

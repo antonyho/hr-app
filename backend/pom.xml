@@ -51,7 +51,6 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <runtime>true</runtime>
         </dependency>
 
         <!-- JWT -->
@@ -64,13 +63,11 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-impl</artifactId>
             <version>0.11.5</version>
-            <runtime>true</runtime>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
             <version>0.11.5</version>
-            <runtime>true</runtime>
         </dependency>
 
         <!-- Password Encoding -->
