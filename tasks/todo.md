@@ -8,8 +8,8 @@ Build a single page HR application that provides employee profile page managemen
 - [x] Set up Docker Compose configuration for PostgreSQL, backend, and frontend
 - [x] Design and create database schema for users, employee profiles, and absence requests
 - [x] Initialize SpringBoot backend with basic structure and dependencies
-- [ ] Initialize Next.js frontend with Tailwind CSS
-- [ ] Create shared models/DTOs for user roles and employee profiles
+- [x] Initialize Next.js frontend with Tailwind CSS
+- [x] Create shared models/DTOs for user roles and employee profiles
 - [ ] Implement authentication service with role-based access
 - [ ] Implement profile service for CRUD operations
 - [ ] Implement absence request service
