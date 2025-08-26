@@ -3,6 +3,10 @@ package com.hrapp.service;
 import com.hrapp.dto.AbsenceRequestDto;
 import com.hrapp.dto.ApprovalRequestDto;
 import com.hrapp.dto.CreateAbsenceRequestDto;
+import com.hrapp.exception.AbsenceRequestNotFoundException;
+import com.hrapp.exception.InvalidDateRangeException;
+import com.hrapp.exception.InvalidRequestStatusException;
+import com.hrapp.exception.UserNotFoundException;
 import com.hrapp.model.AbsenceRequest;
 import com.hrapp.model.AbsenceStatus;
 import com.hrapp.model.EmployeeProfile;
@@ -34,11 +38,11 @@ public class AbsenceRequestService {
     
     public AbsenceRequestDto createAbsenceRequest(CreateAbsenceRequestDto requestDto, UUID currentUserId) {
         User currentUser = userRepository.findById(currentUserId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + currentUserId));
         
         // Validate dates
         if (requestDto.getEndDate().isBefore(requestDto.getStartDate())) {
-            throw new RuntimeException("End date cannot be before start date");
+            throw new InvalidDateRangeException("End date cannot be before start date");
         }
         
         AbsenceRequest absenceRequest = new AbsenceRequest(
@@ -61,7 +65,7 @@ public class AbsenceRequestService {
     
     public List<AbsenceRequestDto> getAllAbsenceRequests(UUID currentUserId) {
         User currentUser = userRepository.findById(currentUserId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + currentUserId));
         
         // Only managers can see all requests
         if (currentUser.getRole() != UserRole.MANAGER) {
@@ -76,7 +80,7 @@ public class AbsenceRequestService {
     
     public List<AbsenceRequestDto> getPendingAbsenceRequests(UUID currentUserId) {
         User currentUser = userRepository.findById(currentUserId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + currentUserId));
         
         // Only managers can see pending requests for approval
         if (currentUser.getRole() != UserRole.MANAGER) {
@@ -91,10 +95,10 @@ public class AbsenceRequestService {
     
     public AbsenceRequestDto getAbsenceRequest(UUID requestId, UUID currentUserId) {
         AbsenceRequest request = absenceRequestRepository.findById(requestId)
-                .orElseThrow(() -> new RuntimeException("Absence request not found"));
+                .orElseThrow(() -> new AbsenceRequestNotFoundException("Absence request not found with ID: " + requestId));
         
         User currentUser = userRepository.findById(currentUserId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + currentUserId));
         
         // Check access permissions
         if (!canAccessRequest(request, currentUser)) {
@@ -106,10 +110,10 @@ public class AbsenceRequestService {
     
     public AbsenceRequestDto approveOrRejectRequest(UUID requestId, ApprovalRequestDto approvalDto, UUID currentUserId) {
         AbsenceRequest request = absenceRequestRepository.findById(requestId)
-                .orElseThrow(() -> new RuntimeException("Absence request not found"));
+                .orElseThrow(() -> new AbsenceRequestNotFoundException("Absence request not found with ID: " + requestId));
         
         User currentUser = userRepository.findById(currentUserId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + currentUserId));
         
         // Only managers can approve/reject requests
         if (currentUser.getRole() != UserRole.MANAGER) {
@@ -118,7 +122,7 @@ public class AbsenceRequestService {
         
         // Can only approve/reject pending requests
         if (request.getStatus() != AbsenceStatus.PENDING) {
-            throw new RuntimeException("Can only approve or reject pending requests");
+            throw new InvalidRequestStatusException("Can only approve or reject pending requests");
         }
         
         request.setStatus(approvalDto.getStatus());
@@ -132,10 +136,10 @@ public class AbsenceRequestService {
     
     public void deleteAbsenceRequest(UUID requestId, UUID currentUserId) {
         AbsenceRequest request = absenceRequestRepository.findById(requestId)
-                .orElseThrow(() -> new RuntimeException("Absence request not found"));
+                .orElseThrow(() -> new AbsenceRequestNotFoundException("Absence request not found with ID: " + requestId));
         
         User currentUser = userRepository.findById(currentUserId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + currentUserId));
         
         // Can only delete own pending requests
         if (!request.getEmployee().getId().equals(currentUserId) || request.getStatus() != AbsenceStatus.PENDING) {

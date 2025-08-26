@@ -2,6 +2,8 @@ package com.hrapp.service;
 
 import com.hrapp.dto.AuthResponse;
 import com.hrapp.dto.LoginRequest;
+import com.hrapp.exception.InvalidCredentialsException;
+import com.hrapp.exception.UserNotFoundException;
 import com.hrapp.model.User;
 import com.hrapp.repository.UserRepository;
 import com.hrapp.security.JwtUtil;
@@ -34,14 +36,14 @@ public class AuthService {
             );
             
             User user = userRepository.findByEmail(loginRequest.getEmail())
-                    .orElseThrow(() -> new RuntimeException("User not found"));
+                    .orElseThrow(() -> new UserNotFoundException("User not found with email: " + loginRequest.getEmail()));
             
             String token = jwtUtil.generateToken(user.getId(), user.getEmail());
             
             return new AuthResponse(token, user.getId(), user.getEmail(), user.getRole());
             
         } catch (AuthenticationException e) {
-            throw new RuntimeException("Invalid email or password");
+            throw new InvalidCredentialsException("Invalid email or password");
         }
     }
 }

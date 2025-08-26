@@ -31,50 +31,34 @@ public class EmployeeProfileController {
     
     @GetMapping("/detailed")
     public ResponseEntity<List<ProfileDetailDto>> getAllDetailProfiles(@RequestHeader("Authorization") String token) {
-        try {
-            UUID currentUserId = getCurrentUserId(token);
-            List<ProfileDetailDto> profiles = employeeProfileService.getAllDetailProfiles(currentUserId);
-            return ResponseEntity.ok(profiles);
-        } catch (Exception e) {
-            return ResponseEntity.status(403).build();
-        }
+        UUID currentUserId = getCurrentUserId(token);
+        List<ProfileDetailDto> profiles = employeeProfileService.getAllDetailProfiles(currentUserId);
+        return ResponseEntity.ok(profiles);
     }
     
     @GetMapping("/{profileId}/basic")
     public ResponseEntity<ProfileBasicDto> getBasicProfile(
             @PathVariable UUID profileId,
             @RequestHeader("Authorization") String token) {
-        try {
-            UUID currentUserId = getCurrentUserId(token);
-            ProfileBasicDto profile = employeeProfileService.getBasicProfile(profileId, currentUserId);
-            return ResponseEntity.ok(profile);
-        } catch (Exception e) {
-            return ResponseEntity.status(403).build();
-        }
+        UUID currentUserId = getCurrentUserId(token);
+        ProfileBasicDto profile = employeeProfileService.getBasicProfile(profileId, currentUserId);
+        return ResponseEntity.ok(profile);
     }
     
     @GetMapping("/{profileId}/detailed")
     public ResponseEntity<ProfileDetailDto> getDetailProfile(
             @PathVariable UUID profileId,
             @RequestHeader("Authorization") String token) {
-        try {
-            UUID currentUserId = getCurrentUserId(token);
-            ProfileDetailDto profile = employeeProfileService.getDetailProfile(profileId, currentUserId);
-            return ResponseEntity.ok(profile);
-        } catch (Exception e) {
-            return ResponseEntity.status(403).build();
-        }
+        UUID currentUserId = getCurrentUserId(token);
+        ProfileDetailDto profile = employeeProfileService.getDetailProfile(profileId, currentUserId);
+        return ResponseEntity.ok(profile);
     }
     
     @GetMapping("/me")
     public ResponseEntity<ProfileDetailDto> getMyProfile(@RequestHeader("Authorization") String token) {
-        try {
-            UUID currentUserId = getCurrentUserId(token);
-            ProfileDetailDto profile = employeeProfileService.getMyProfile(currentUserId);
-            return ResponseEntity.ok(profile);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+        UUID currentUserId = getCurrentUserId(token);
+        ProfileDetailDto profile = employeeProfileService.getMyProfile(currentUserId);
+        return ResponseEntity.ok(profile);
     }
     
     @PutMapping("/{profileId}")
@@ -82,13 +66,9 @@ public class EmployeeProfileController {
             @PathVariable UUID profileId,
             @Valid @RequestBody ProfileDetailDto profileDto,
             @RequestHeader("Authorization") String token) {
-        try {
-            UUID currentUserId = getCurrentUserId(token);
-            ProfileDetailDto updatedProfile = employeeProfileService.updateProfile(profileId, profileDto, currentUserId);
-            return ResponseEntity.ok(updatedProfile);
-        } catch (Exception e) {
-            return ResponseEntity.status(403).build();
-        }
+        UUID currentUserId = getCurrentUserId(token);
+        ProfileDetailDto updatedProfile = employeeProfileService.updateProfile(profileId, profileDto, currentUserId);
+        return ResponseEntity.ok(updatedProfile);
     }
     
     private UUID getCurrentUserId(String authHeader) {

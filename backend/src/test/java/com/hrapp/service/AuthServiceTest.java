@@ -2,6 +2,8 @@ package com.hrapp.service;
 
 import com.hrapp.dto.AuthResponse;
 import com.hrapp.dto.LoginRequest;
+import com.hrapp.exception.InvalidCredentialsException;
+import com.hrapp.exception.UserNotFoundException;
 import com.hrapp.model.User;
 import com.hrapp.model.UserRole;
 import com.hrapp.repository.UserRepository;
@@ -86,7 +88,7 @@ class AuthServiceTest {
                 .thenThrow(new BadCredentialsException("Invalid credentials"));
 
         // Act & Assert
-        RuntimeException exception = assertThrows(RuntimeException.class, 
+        InvalidCredentialsException exception = assertThrows(InvalidCredentialsException.class, 
                 () -> authService.login(loginRequest));
         assertEquals("Invalid email or password", exception.getMessage());
         
@@ -103,9 +105,9 @@ class AuthServiceTest {
                 .thenReturn(Optional.empty());
 
         // Act & Assert
-        RuntimeException exception = assertThrows(RuntimeException.class, 
+        UserNotFoundException exception = assertThrows(UserNotFoundException.class, 
                 () -> authService.login(loginRequest));
-        assertEquals("User not found", exception.getMessage());
+        assertTrue(exception.getMessage().contains("User not found with email:"));
         
         verify(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
         verify(userRepository).findByEmail("test@example.com");

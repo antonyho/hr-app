@@ -2,6 +2,8 @@ package com.hrapp.service;
 
 import com.hrapp.dto.ProfileBasicDto;
 import com.hrapp.dto.ProfileDetailDto;
+import com.hrapp.exception.ProfileNotFoundException;
+import com.hrapp.exception.UserNotFoundException;
 import com.hrapp.model.EmployeeProfile;
 import com.hrapp.model.User;
 import com.hrapp.model.UserRole;
@@ -26,7 +28,7 @@ public class EmployeeProfileService {
     
     public List<ProfileBasicDto> getAllBasicProfiles(UUID currentUserId) {
         User currentUser = userRepository.findById(currentUserId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + currentUserId));
         
         return employeeProfileRepository.findAll()
                 .stream()
@@ -36,7 +38,7 @@ public class EmployeeProfileService {
     
     public List<ProfileDetailDto> getAllDetailProfiles(UUID currentUserId) {
         User currentUser = userRepository.findById(currentUserId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + currentUserId));
         
         // Only managers can see all detailed profiles
         if (currentUser.getRole() != UserRole.MANAGER) {
@@ -51,10 +53,10 @@ public class EmployeeProfileService {
     
     public ProfileBasicDto getBasicProfile(UUID profileId, UUID currentUserId) {
         EmployeeProfile profile = employeeProfileRepository.findById(profileId)
-                .orElseThrow(() -> new RuntimeException("Profile not found"));
+                .orElseThrow(() -> new ProfileNotFoundException("Profile not found with ID: " + profileId));
         
         User currentUser = userRepository.findById(currentUserId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + currentUserId));
         
         // Check basic access permissions
         if (!canAccessProfile(profile, currentUser)) {
@@ -66,10 +68,10 @@ public class EmployeeProfileService {
     
     public ProfileDetailDto getDetailProfile(UUID profileId, UUID currentUserId) {
         EmployeeProfile profile = employeeProfileRepository.findById(profileId)
-                .orElseThrow(() -> new RuntimeException("Profile not found"));
+                .orElseThrow(() -> new ProfileNotFoundException("Profile not found with ID: " + profileId));
         
         User currentUser = userRepository.findById(currentUserId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + currentUserId));
         
         // Check detailed access permissions (manager or owner only)
         if (!canAccessDetailedProfile(profile, currentUser)) {
@@ -81,17 +83,17 @@ public class EmployeeProfileService {
     
     public ProfileDetailDto getMyProfile(UUID currentUserId) {
         EmployeeProfile profile = employeeProfileRepository.findByUserId(currentUserId)
-                .orElseThrow(() -> new RuntimeException("Profile not found"));
+                .orElseThrow(() -> new ProfileNotFoundException("Profile not found for user ID: " + currentUserId));
         
         return convertToDetailDto(profile);
     }
     
     public ProfileDetailDto updateProfile(UUID profileId, ProfileDetailDto profileDto, UUID currentUserId) {
         EmployeeProfile existingProfile = employeeProfileRepository.findById(profileId)
-                .orElseThrow(() -> new RuntimeException("Profile not found"));
+                .orElseThrow(() -> new ProfileNotFoundException("Profile not found with ID: " + profileId));
         
         User currentUser = userRepository.findById(currentUserId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + currentUserId));
         
         // Check update permissions
         if (!canUpdateProfile(existingProfile, currentUser)) {

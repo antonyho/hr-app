@@ -27,13 +27,9 @@ public class AbsenceRequestController {
     public ResponseEntity<AbsenceRequestDto> createAbsenceRequest(
             @Valid @RequestBody CreateAbsenceRequestDto requestDto,
             @RequestHeader("Authorization") String token) {
-        try {
-            UUID currentUserId = getCurrentUserId(token);
-            AbsenceRequestDto createdRequest = absenceRequestService.createAbsenceRequest(requestDto, currentUserId);
-            return ResponseEntity.ok(createdRequest);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        UUID currentUserId = getCurrentUserId(token);
+        AbsenceRequestDto createdRequest = absenceRequestService.createAbsenceRequest(requestDto, currentUserId);
+        return ResponseEntity.ok(createdRequest);
     }
     
     @GetMapping("/my")
@@ -45,37 +41,25 @@ public class AbsenceRequestController {
     
     @GetMapping("/all")
     public ResponseEntity<List<AbsenceRequestDto>> getAllAbsenceRequests(@RequestHeader("Authorization") String token) {
-        try {
-            UUID currentUserId = getCurrentUserId(token);
-            List<AbsenceRequestDto> requests = absenceRequestService.getAllAbsenceRequests(currentUserId);
-            return ResponseEntity.ok(requests);
-        } catch (Exception e) {
-            return ResponseEntity.status(403).build();
-        }
+        UUID currentUserId = getCurrentUserId(token);
+        List<AbsenceRequestDto> requests = absenceRequestService.getAllAbsenceRequests(currentUserId);
+        return ResponseEntity.ok(requests);
     }
     
     @GetMapping("/pending")
     public ResponseEntity<List<AbsenceRequestDto>> getPendingAbsenceRequests(@RequestHeader("Authorization") String token) {
-        try {
-            UUID currentUserId = getCurrentUserId(token);
-            List<AbsenceRequestDto> requests = absenceRequestService.getPendingAbsenceRequests(currentUserId);
-            return ResponseEntity.ok(requests);
-        } catch (Exception e) {
-            return ResponseEntity.status(403).build();
-        }
+        UUID currentUserId = getCurrentUserId(token);
+        List<AbsenceRequestDto> requests = absenceRequestService.getPendingAbsenceRequests(currentUserId);
+        return ResponseEntity.ok(requests);
     }
     
     @GetMapping("/{requestId}")
     public ResponseEntity<AbsenceRequestDto> getAbsenceRequest(
             @PathVariable UUID requestId,
             @RequestHeader("Authorization") String token) {
-        try {
-            UUID currentUserId = getCurrentUserId(token);
-            AbsenceRequestDto request = absenceRequestService.getAbsenceRequest(requestId, currentUserId);
-            return ResponseEntity.ok(request);
-        } catch (Exception e) {
-            return ResponseEntity.status(403).build();
-        }
+        UUID currentUserId = getCurrentUserId(token);
+        AbsenceRequestDto request = absenceRequestService.getAbsenceRequest(requestId, currentUserId);
+        return ResponseEntity.ok(request);
     }
     
     @PutMapping("/{requestId}/approve")
@@ -83,26 +67,18 @@ public class AbsenceRequestController {
             @PathVariable UUID requestId,
             @Valid @RequestBody ApprovalRequestDto approvalDto,
             @RequestHeader("Authorization") String token) {
-        try {
-            UUID currentUserId = getCurrentUserId(token);
-            AbsenceRequestDto updatedRequest = absenceRequestService.approveOrRejectRequest(requestId, approvalDto, currentUserId);
-            return ResponseEntity.ok(updatedRequest);
-        } catch (Exception e) {
-            return ResponseEntity.status(403).build();
-        }
+        UUID currentUserId = getCurrentUserId(token);
+        AbsenceRequestDto updatedRequest = absenceRequestService.approveOrRejectRequest(requestId, approvalDto, currentUserId);
+        return ResponseEntity.ok(updatedRequest);
     }
     
     @DeleteMapping("/{requestId}")
     public ResponseEntity<Void> deleteAbsenceRequest(
             @PathVariable UUID requestId,
             @RequestHeader("Authorization") String token) {
-        try {
-            UUID currentUserId = getCurrentUserId(token);
-            absenceRequestService.deleteAbsenceRequest(requestId, currentUserId);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.status(403).build();
-        }
+        UUID currentUserId = getCurrentUserId(token);
+        absenceRequestService.deleteAbsenceRequest(requestId, currentUserId);
+        return ResponseEntity.noContent().build();
     }
     
     private UUID getCurrentUserId(String authHeader) {
