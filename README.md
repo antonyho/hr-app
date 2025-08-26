@@ -55,8 +55,8 @@ A full-stack HR management application built with SpringBoot and Next.js, provid
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd hr-application
+   git clone https://github.com/antonyho/hr-app
+   cd hr-app
    ```
 
 2. **Start all services**
@@ -73,22 +73,6 @@ A full-stack HR management application built with SpringBoot and Next.js, provid
 - **Manager**: manager@company.com / password
 - **Employee 1**: john.doe@company.com / password  
 - **Employee 2**: jane.smith@company.com / password
-
-## Development Setup
-
-### Backend Development
-```bash
-cd backend
-mvn clean install
-mvn spring-boot:run
-```
-
-### Frontend Development
-```bash
-cd frontend
-npm install
-npm run dev
-```
 
 ### Database Setup
 The database is automatically initialized with sample data when using Docker Compose.
@@ -197,18 +181,7 @@ The application uses multi-stage Docker builds for optimal image sizes and inclu
 - **API Layer**: Centralized HTTP client with interceptors
 - **Responsive Design**: Mobile-first with Tailwind CSS
 
-## Production Deployment
-
-### Docker Production Build
-```bash
-# Build production images
-docker-compose -f docker-compose.prod.yml build
-
-# Deploy with production configuration
-docker-compose -f docker-compose.prod.yml up -d
-```
-
-### Environment Setup
+### Environment Setup Needed for Production Readiness
 1. Configure production database credentials
 2. Set strong JWT secret key
 3. Configure CORS for production domains
@@ -218,44 +191,8 @@ docker-compose -f docker-compose.prod.yml up -d
 
 ## Troubleshooting
 
-### Common Issues
-
-**Database Connection Issues**
-- Ensure PostgreSQL is running and accessible
-- Check connection credentials and network configuration
-- Verify database initialization scripts have run
-
-**Authentication Failures**
-- Check JWT secret configuration
-- Verify token expiration settings
-- Ensure cookies are properly set for frontend
-
-**Permission Errors**
-- Verify user roles in database
-- Check service-level authorization logic
-- Ensure proper JWT token includes user information
-
 ### Logs and Monitoring
 - Backend logs: Check Spring Boot console output
 - Frontend logs: Browser developer console
 - Database logs: PostgreSQL container logs
 - Health checks available at `/actuator/health`
-
-## Contributing
-
-### Code Style
-- Follow Java code conventions for backend
-- Use TypeScript strict mode for frontend
-- Implement comprehensive error handling
-- Add unit tests for new features
-- Update documentation for API changes
-
-### Development Workflow
-1. Create feature branches from main
-2. Implement with proper testing
-3. Update documentation as needed
-4. Submit pull requests with clear descriptions
-
-## License
-
-This project is developed for demonstration purposes. Please ensure proper licensing for production use.

@@ -1,5 +1,5 @@
 # Build stage
-FROM openjdk:17-jdk-slim as build
+FROM eclipse-temurin:17-jdk as build
 
 WORKDIR /app
 COPY pom.xml .
@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y maven
 RUN mvn clean package -DskipTests
 
 # Runtime stage
-FROM openjdk:17-jre-slim
+FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 
