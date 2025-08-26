@@ -10,8 +10,8 @@ Build a single page HR application that provides employee profile page managemen
 - [x] Initialize SpringBoot backend with basic structure and dependencies
 - [x] Initialize Next.js frontend with Tailwind CSS
 - [x] Create shared models/DTOs for user roles and employee profiles
-- [ ] Implement authentication service with role-based access
-- [ ] Implement profile service for CRUD operations
+- [x] Implement authentication service with role-based access
+- [x] Implement profile service for CRUD operations
 - [ ] Implement absence request service
 - [ ] Create basic frontend components for employee profiles
 - [ ] Add unit tests for backend services
