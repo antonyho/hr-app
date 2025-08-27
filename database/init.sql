@@ -72,9 +72,9 @@ CREATE INDEX idx_feedback_profile_id ON feedback(profile_id);
 
 -- Insert some sample data (with explicit UUIDs for consistency)
 INSERT INTO users (id, email, password_hash, role) VALUES
-('550e8400-e29b-41d4-a716-446655440001', 'manager@company.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.', 'MANAGER'),
-('550e8400-e29b-41d4-a716-446655440002', 'john.doe@company.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.', 'EMPLOYEE'),
-('550e8400-e29b-41d4-a716-446655440003', 'jane.smith@company.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.', 'EMPLOYEE');
+('550e8400-e29b-41d4-a716-446655440001', 'manager@company.com', '$2a$10$v6mbuUn869h44yLZUuzuKOpT7LLvyJ9ffiT9hycaxWuO6Rv3pjT4a', 'MANAGER'),
+('550e8400-e29b-41d4-a716-446655440002', 'john.doe@company.com', '$2a$10$v6mbuUn869h44yLZUuzuKOpT7LLvyJ9ffiT9hycaxWuO6Rv3pjT4a', 'EMPLOYEE'),
+('550e8400-e29b-41d4-a716-446655440003', 'jane.smith@company.com', '$2a$10$v6mbuUn869h44yLZUuzuKOpT7LLvyJ9ffiT9hycaxWuO6Rv3pjT4a', 'EMPLOYEE');
 
 INSERT INTO employee_profiles (user_id, employee_id, first_name, last_name, department, position, hire_date, phone, address, manager_id) VALUES
 ('550e8400-e29b-41d4-a716-446655440001', 'MGR001', 'Alice', 'Manager', 'HR', 'HR Manager', '2020-01-15', '+1-555-0101', '123 Manager St', NULL),
